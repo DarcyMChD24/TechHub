@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechHub - Tienda de Productos Tecnológicos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a0f2e;
+            --secondary: #2d1b4e;
+            --accent: #8b5cf6;
+            --accent-light: #a78bfa;
+            --gray: #a78bfa;
+            --light: #f0f2f5;
+            --border: #4c1d95;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-bottom: 2px solid var(--accent);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--accent-light);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        main {
+            min-height: calc(100vh - 200px);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-light) 0%, #6ba3ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideDown 0.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        /* Products Section */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--light);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, var(--secondary) 0%, rgba(26, 35, 50, 0.8) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.25);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, rgba(13, 127, 242, 0.1) 0%, rgba(13, 127, 242, 0.05) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: var(--primary);
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-buy:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-buy:active {
+            transform: scale(0.98);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, rgba(13, 127, 242, 0.05) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-light);
+        }
+
+        .contact-section p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            padding: 1.5rem;
+            background: rgba(13, 127, 242, 0.1);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(13, 127, 242, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .contact-item h3 {
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item p {
+            color: var(--gray);
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            border-top: 2px solid var(--accent);
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray);
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--accent-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--light);
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.95rem;
+            }
+
+            main {
+                padding: 2rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .contact-section {
+                padding: 2rem;
+            }
+
+            .contact-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                padding: 1.5rem;
+            }
+
+            .footer-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0 0.5rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+                letter-spacing: 0.5px;
+            }
+
+            nav ul {
+                gap: 0.5rem;
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+
+            main {
+                padding: 1.5rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .product-image {
+                height: 180px;
+                font-size: 3rem;
+            }
+
+            .contact-section {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .contact-section h2 {
+                font-size: 1.3rem;
+            }
+
+            .contact-section p {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">⚡ TechHub</div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio">
+            <h1>Tecnología de Futuro, Hoy</h1>
+            <p>Descubre los mejores productos tecnológicos innovadores con la mejor calidad</p>
+        </section>
+
+        <section id="productos">
+            <h2 class="section-title">Productos Destacados</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">📱</div>
+                    <div class="product-info">
+                        <div class="product-name">Smartphone Pro Max</div>
+                        <div class="product-description">Pantalla AMOLED 6.7", Snapdragon 8 Gen 3</div>
+                        <div class="product-footer">
+                            <div class="product-price">$999</div>
+                            <button class="btn-buy">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">💻</div>
+                    <div class="product-info">
+                        <div class="product-name">Laptop Gaming</div>
+                        <div class="product-description">RTX 4090, Intel i9, 32GB RAM</div>
+                        <div class="product-footer">
+                            <div class="product-price">$2,499</div>
+                            <button class="btn-buy">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">⌚</div>
+                    <div class="product-info">
+                        <div class="product-name">Smartwatch Elite</div>
+                        <div class="product-description">Batería 10 días, GPS+Cellular</div>
+                        <div class="product-footer">
+                            <div class="product-price">$399</div>
+                            <button class="btn-buy">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🎧</div>
+                    <div class="product-info">
+                        <div class="product-name">Audífonos Inalámbricos</div>
+                        <div class="product-description">ANC, Sonido Hi-Fi, 48h autonomía</div>
+                        <div class="product-footer">
+                            <div class="product-price">$299</div>
+                            <button class="btn-buy">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">📷</div>
+                    <div class="product-info">
+                        <div class="product-name">Cámara Profesional</div>
+                        <div class="product-description">4K 120fps, Sensor Full Frame</div>
+                        <div class="product-footer">
+                            <div class="product-price">$3,299</div>
+                            <button class="btn-buy">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🖥️</div>
+                    <div class="product-info">
+                        <div class="product-name">Monitor 4K</div>
+                        <div class="product-description">144Hz, DisplayPort 2.1, Premium</div>
+                        <div class="product-footer">
+                            <div class="product-price">$899</div>
+                            <button class="btn-buy">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contacto">
+            <h2>Contáctanos</h2>
+            <p>¿Tienes dudas? Estamos aquí para ayudarte con cualquier pregunta</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>📞 Teléfono</h3>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📧 Email</h3>
+                    <p>contacto@techhub.com</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📍 Ubicación</h3>
+                    <p>Av. Tecnológica 123, Tech City</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Términos de Servicio</a>
+                <a href="#">Devoluciones</a>
+                <a href="#">Blog</a>
+            </div>
+            <p>&copy; 2025 TechHub. Todos los derechos reservados. | Innovación tecnológica a tu alcance</p>
+        </div>
+    </footer>
+</body>
+</html>
